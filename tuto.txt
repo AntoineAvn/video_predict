@@ -1,0 +1,50 @@
+✅ 1. Téléchargé le dataset GTSDB Kaggle
+
+Lien : https://www.kaggle.com/datasets/pkdarabi/cardetection/data
+
+Contenant images classifiées (Speed Limit 10-120, Red/Green light, Stop)
+
+✅ 2. Vérifié les ClassId
+
+IDs correspondants aux panneaux de limitation de vitesse :
+[0,1,2,3,4,5,7,8] selon Meta.csv
+
+✅ 3. Créé et exécuté le script prepare_traffic_sign_dataset.py
+
+Filtrage du CSV pour ne garder que les speed limits
+
+Conversion des annotations au format YOLOv8 (class_id x_center y_center width height)
+
+Copie des images + génération des labels .txt
+
+✅ 4. Généré la structure YOLO
+
+bash
+Copier
+Modifier
+traffic_sign/
+ ├── images/train/
+ └── labels/train/
+✅ 5. Créé le fichier traffic_sign.yaml
+
+yaml
+Copier
+Modifier
+path: traffic_sign
+train: images/train
+val: images/train
+nc: 1
+names: ['traffic_sign']
+✅ 6. Entraîné YOLOv8n sur traffic_sign
+
+Commandes : via notebook avec device='mps' (GPU Mac M3)
+
+Options : epochs=60, batch=8, imgsz=640
+
+Résultats : best.pt (meilleur modèle) et last.pt (dernier checkpoint) générés
+
+✅ 7. Décidé d’utiliser MobileNet (CNN classifier)
+
+Pour lire la vitesse affichée sur le crop du panneau détecté
+
+Solution plus rapide et légère qu’un OCR, adaptée aux classes fixes

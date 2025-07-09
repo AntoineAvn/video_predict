@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Datasets
+traffic_sign/
+archive/
+
+# YOLO runs (poids, logs, outputs)
+runs/
+
+# Modèles poids
+*.pt
+
+# Vidéos lourdes
+*.mp4
+
+# Images générées d'entraînement
+train_batch*.jpg
+labels*.jpg
+
+# CSV résultats
+results.csv
+
+# Configs Ultralytics
+args.yaml
