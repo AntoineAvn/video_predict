@@ -43,6 +43,8 @@ Ou utilisez le script shell:
   - Camions (classe 7)
   - Feux de circulation (classe 9)
   - Panneaux stop (classe 11)
+  - Panneaux de limitation de vitesse (model finetuned)
+  - Couleur de feu de signalisation (model finetuned)
 - Affichage du FPS pour évaluer les performances
 - Optimisé pour CPU MacBook Pro M3
 - Redémarrage automatique de la vidéo à la fin
