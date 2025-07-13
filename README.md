@@ -1,55 +1,66 @@
-# Détection d'objets sur vidéo dashcam avec YOLOv8
+# Détection Dashcam YOLOv8
 
-Ce projet permet de détecter en temps réel les objets pertinents pour la conduite autonome dans une vidéo de dashcam en utilisant YOLOv8.
+Ce projet permet de détecter des objets et des panneaux de signalisation dans des vidéos de dashcam en utilisant YOLOv8.
+
+## Fonctionnalités
+
+- Détection d'objets avec YOLOv8 (modèle COCO)
+- Détection de panneaux de signalisation (modèle personnalisé)
+- Support pour fichiers vidéo et webcam
+- Affichage en temps réel avec FPS
+- Possibilité de sauvegarder la vidéo annotée
+- Capture d'écran avec la touche 'S'
 
 ## Prérequis
 
 - Python 3.8+
-- Environnement conda "autonomous" avec les packages suivants:
-  - ultralytics
-  - opencv-python
-
-## Utilisation
-
-1. Activez l'environnement conda:
+- PyTorch
+- OpenCV
+- Ultralytics (YOLOv8)
 
 ```bash
-conda activate autonomous
+pip install torch torchvision opencv-python ultralytics
 ```
 
-2. Exécutez le script:
+### Python
 
 ```bash
-python detect_dashcam.py
+# Lancer avec un fichier vidéo
+python detect_dashcam.py --video chemin/vers/video.mp4
+
+# Lancer avec la webcam
+python detect_dashcam.py --camera 0
+
+# Options supplémentaires
+python detect_dashcam.py --video video.mp4 --conf 0.3 --iou 0.5 --scale 0.5 --skip 1 --output resultat.mp4
 ```
 
-Ou utilisez le script shell:
+## Options disponibles
 
-```bash
-./run.sh
+- `--video`, `-v` : Chemin vers le fichier vidéo
+- `--camera`, `-c` : ID de la caméra (0, 1, etc.)
+- `--output`, `-o` : Sauvegarder la vidéo annotée
+- `--conf` : Seuil de confiance (défaut: 0.25)
+- `--iou` : Seuil IoU pour NMS (défaut: 0.55)
+- `--scale` : Échelle de redimensionnement (défaut: 0.75)
+- `--skip` : Nombre de frames à ignorer (défaut: 2)
+
+## Contrôles
+
+- `Q` : Quitter
+- `S` : Capture d'écran
+
+## Modèles
+
+- `yolov8n.pt` : Modèle YOLOv8 nano pour la détection d'objets (COCO)
+- `best.pt` : Modèle personnalisé pour la détection de panneaux de signalisation
+
+## Structure du projet
+
 ```
-
-3. Contrôles:
-   - Appuyez sur 'q' pour quitter le programme
-
-## Fonctionnalités
-
-- Détection en temps réel des objets pertinents pour la conduite autonome:
-  - Personnes (classe 0)
-  - Vélos (classe 1)
-  - Voitures (classe 2)
-  - Motos (classe 3)
-  - Bus (classe 5)
-  - Camions (classe 7)
-  - Feux de circulation (classe 9)
-  - Panneaux stop (classe 11)
-  - Panneaux de limitation de vitesse (model finetuned)
-  - Couleur de feu de signalisation (model finetuned)
-- Affichage du FPS pour évaluer les performances
-- Optimisé pour CPU MacBook Pro M3
-- Redémarrage automatique de la vidéo à la fin
-
-## Notes
-
-- Le modèle YOLOv8n est utilisé pour la détection
-- Aucun enregistrement vidéo n'est effectué
+.
+├── detect_dashcam.py   # Script principal
+├── yolov8n.pt          # Modèle COCO
+├── best.pt             # Modèle panneaux de signalisation
+└── README.md           # Documentation
+```
