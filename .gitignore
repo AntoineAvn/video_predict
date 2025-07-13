@@ -6,8 +6,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Datasets
-traffic_sign/
-archive/
+car/
 
 # YOLO runs (poids, logs, outputs)
 runs/
@@ -27,3 +26,5 @@ results.csv
 
 # Configs Ultralytics
 args.yaml
+
+.DS_Store
