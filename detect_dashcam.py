@@ -255,16 +255,16 @@ MODE TEMPS RÉEL (WEBCAM):
         if frame_count % skip_frames == 0:
             small = cv2.resize(frame, (res_w, res_h))
 
-            # → détection COCO
+            # détection COCO
             r_coco = model_coco.predict(
                 small, conf=conf_thr, classes=relevant_coco, verbose=False
             )[0]
 
-            # → détection traffic‑sign
+            # détection traffic‑sign
             r_sign = model_signs.predict(small, conf=conf_thr, verbose=False)[0]
             sign_cls = r_sign.boxes.cls.clone() + SIGN_OFFSET  # clone + offset
 
-            # → fusion des boîtes
+            # fusion des boîtes
             xyxy   = torch.cat([r_coco.boxes.xyxy,   r_sign.boxes.xyxy])
             scores = torch.cat([r_coco.boxes.conf,   r_sign.boxes.conf])
             labels = torch.cat([r_coco.boxes.cls,    sign_cls])
@@ -275,7 +275,7 @@ MODE TEMPS RÉEL (WEBCAM):
             # sauvegarde pour frames ignorées
             last_xyxy, last_scores, last_labels = xyxy, scores, labels
 
-            # → dessin
+            # dessin
             annotated = frame.copy()
             for i in range(len(xyxy)):
                 # 1) extraire & convertir
