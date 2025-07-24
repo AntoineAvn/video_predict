@@ -10,6 +10,7 @@ Ce projet permet de détecter des objets et des panneaux de signalisation dans d
 - Affichage en temps réel avec FPS
 - Possibilité de sauvegarder la vidéo annotée
 - Capture d'écran avec la touche 'S'
+- Interface web Streamlit pour faciliter l'utilisation
 
 ## Prérequis
 
@@ -17,12 +18,32 @@ Ce projet permet de détecter des objets et des panneaux de signalisation dans d
 - PyTorch
 - OpenCV
 - Ultralytics (YOLOv8)
+- Streamlit
 
 ```bash
-pip install torch torchvision opencv-python ultralytics
+pip install -r requirements.txt
 ```
 
-### Python
+## Utilisation
+
+### Interface Streamlit (recommandé)
+
+```bash
+# Lancer l'interface web
+./run_app.sh
+
+# Ou directement avec streamlit
+streamlit run app.py
+```
+
+L'interface web permet de:
+
+- Déposer un fichier vidéo pour analyse
+- Sélectionner une webcam parmi celles détectées
+- Prendre des captures d'écran pendant l'analyse
+- Arrêter l'analyse à tout moment
+
+### Mode ligne de commande
 
 ```bash
 # Lancer avec un fichier vidéo
@@ -35,7 +56,7 @@ python detect_dashcam.py --camera 0
 python detect_dashcam.py --video video.mp4 --conf 0.3 --iou 0.5 --scale 0.5 --skip 1 --output resultat.mp4
 ```
 
-## Options disponibles
+## Options disponibles (mode ligne de commande)
 
 - `--video`, `-v` : Chemin vers le fichier vidéo
 - `--camera`, `-c` : ID de la caméra (0, 1, etc.)
@@ -47,8 +68,17 @@ python detect_dashcam.py --video video.mp4 --conf 0.3 --iou 0.5 --scale 0.5 --sk
 
 ## Contrôles
 
+### Interface Streamlit
+
+- Bouton "Arrêter la lecture" : Arrête l'analyse en cours
+- Bouton "Prendre un screenshot" : Capture l'image actuelle
+
+### Mode ligne de commande
+
 - `Q` : Quitter
+- `ESPACE` : Pause/Reprendre
 - `S` : Capture d'écran
+- `←/→` : Reculer/Avancer de 10 secondes (mode fichier vidéo)
 
 ## Modèles
 
@@ -59,7 +89,9 @@ python detect_dashcam.py --video video.mp4 --conf 0.3 --iou 0.5 --scale 0.5 --sk
 
 ```
 .
-├── detect_dashcam.py   # Script principal
+├── app.py              # Application Streamlit
+├── detect_dashcam.py   # Script ligne de commande
+├── run_app.sh          # Script de lancement de l'interface
 ├── yolov8n.pt          # Modèle COCO
 ├── best.pt             # Modèle panneaux de signalisation
 └── README.md           # Documentation
