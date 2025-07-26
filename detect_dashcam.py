@@ -78,7 +78,7 @@ MODE TEMPS RÉEL (WEBCAM):
             
             # Configuration spécifique pour macOS
             if platform.system() == 'Darwin':
-                print("🍎 Détection de macOS - Configuration spéciale pour la caméra...")
+                print("Détection de macOS - Configuration spéciale pour la caméra...")
                 cap = configure_mac_camera(camera_id)
             else:
                 cap = cv2.VideoCapture(camera_id)
@@ -87,25 +87,25 @@ MODE TEMPS RÉEL (WEBCAM):
             
             # Vérifier si la caméra est ouverte
             if not cap.isOpened():
-                print(f"❌ Impossible d'ouvrir la caméra {camera_id}")
-                print("💡 Essayez avec --list-cameras pour voir les caméras disponibles")
+                print(f"Impossible d'ouvrir la caméra {camera_id}")
+                print("Essayez avec --list-cameras pour voir les caméras disponibles")
                 return
             
             # Tester la lecture d'une frame
             ret, test_frame = cap.read()
             if not ret:
-                print(f"❌ La caméra {camera_id} est détectée mais ne peut pas être lue")
-                print("💡 Essayez une autre caméra ou vérifiez les permissions")
+                print(f"La caméra {camera_id} est détectée mais ne peut pas être lue")
+                print("Essayez une autre caméra ou vérifiez les permissions")
                 return
             
             print("✅ Caméra connectée et fonctionnelle")
             
         except ValueError:
-            print(f"❌ ID de caméra invalide: {args.camera}")
+            print(f"ID de caméra invalide: {args.camera}")
             return
     
     if not cap.isOpened():
-        print("❌ Erreur à l'ouverture de la source vidéo")
+        print("Erreur à l'ouverture de la source vidéo")
         return
 
     frame_w  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -125,7 +125,7 @@ MODE TEMPS RÉEL (WEBCAM):
             output_path, fourcc, fps_src,
             (frame_w, frame_h)
         )
-        print(f"💾 Enregistrement vidéo activé: {output_path}")
+        print(f"Enregistrement vidéo activé: {output_path}")
 
     # Paramètres de détection
     scale       = args.scale
@@ -150,8 +150,8 @@ MODE TEMPS RÉEL (WEBCAM):
     current_pos = 0
     
     # ─── 4. Boucle principale ──────────────────────────────────────
-    print("\n🚀 Démarrage de la détection en temps réel...")
-    print("💡 Contrôles:")
+    print("\nDémarrage de la détection en temps réel...")
+    print("Contrôles:")
     print("  • Q: Quitter")
     print("  • ESPACE: Pause/Reprendre")
     print("  • S: Screenshot")
@@ -217,18 +217,18 @@ MODE TEMPS RÉEL (WEBCAM):
         ret, frame = cap.read()
         if not ret:
             consecutive_errors += 1
-            print(f"⚠️ Erreur de lecture (tentative {consecutive_errors}/{max_errors})")
+            print(f"Erreur de lecture (tentative {consecutive_errors}/{max_errors})")
             
             if consecutive_errors >= max_errors:
                 if is_video_file:  # Si c'est un fichier vidéo, on peut le redémarrer
-                    print("🔄 Fin de la vidéo - Redémarrage...")
+                    print("Fin de la vidéo - Redémarrage...")
                     cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
                     current_pos = 0
                     cv2.setTrackbarPos('Position', window_name, 0)
                     consecutive_errors = 0
                     continue
                 else:  # Si c'est une webcam, on quitte
-                    print("❌ Trop d'erreurs de lecture de la caméra")
+                    print("Trop d'erreurs de lecture de la caméra")
                     break
             
             # Petite pause avant de réessayer
@@ -367,7 +367,7 @@ def save_screenshot(frame):
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     screenshot_path = f"screenshot_{timestamp}.jpg"
     cv2.imwrite(screenshot_path, frame)
-    print(f"📸 Screenshot sauvegardé: {screenshot_path}")
+    print(f"Screenshot sauvegardé: {screenshot_path}")
 
 def configure_mac_camera(camera_id):
     """Configuration spéciale pour les caméras sur macOS"""
@@ -386,7 +386,7 @@ def configure_mac_camera(camera_id):
         # Tester si on peut lire une frame
         ret, _ = cap.read()
         if ret:
-            print(f"✅ Caméra configurée avec succès: {width}x{height}")
+            print(f"Caméra configurée avec succès: {width}x{height}")
             # Réinitialiser la caméra
             cap.release()
             cap = cv2.VideoCapture(camera_id)
@@ -401,7 +401,7 @@ def configure_mac_camera(camera_id):
 
 def list_available_cameras():
     """Liste les caméras disponibles sur le système"""
-    print("\n📷 Recherche des caméras disponibles...")
+    print("\nRecherche des caméras disponibles...")
     
     # Nombre maximum de caméras à tester
     max_cameras = 10
@@ -419,16 +419,16 @@ def list_available_cameras():
             cap.release()
     
     if available_cameras:
-        print("✅ Caméras détectées:")
+        print("Caméras détectées:")
         for i, width, height, fps in available_cameras:
             print(f"  • Caméra {i}: {width}x{height} @ {fps:.1f} FPS")
-        print("\n💡 Utilisez l'option --camera X pour sélectionner une caméra")
+        print("\nUtilisez l'option --camera X pour sélectionner une caméra")
     else:
-        print("❌ Aucune caméra n'a été détectée")
-        print("💡 Vérifiez les connexions et les permissions")
+        print("Aucune caméra n'a été détectée")
+        print("Vérifiez les connexions et les permissions")
     
     if platform.system() == 'Darwin':
-        print("\n🍎 Note pour macOS:")
+        print("\nNote pour macOS:")
         print("  • Si vous utilisez une caméra de continuité (iPhone/iPad),")
         print("    assurez-vous que l'appareil est déverrouillé et que")
         print("    la fonction est activée dans les Réglages Système.")
