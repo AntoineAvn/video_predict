@@ -287,10 +287,12 @@ MODE TEMPS RÉEL (WEBCAM):
                 cls  = int(labels[i].item())
 
                 # 2) dessiner
-                cv2.rectangle(annotated, (x1, y1), (x2, y2), (0,255,0), 2)
-                txt = f"{names[cls]} {conf:.2f}"
-                cv2.putText(annotated, txt, (x1, y1-8),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
+                class_name = names[cls]
+                color = get_detection_color(class_name)
+                cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
+                txt = f"{class_name} {conf:.2f}"
+                cv2.putText(annotated, txt, (x1, y1-12),
+                            cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2)
 
             last_annotated_frame = annotated.copy()
 
@@ -306,10 +308,12 @@ MODE TEMPS RÉEL (WEBCAM):
                     conf = float(last_scores[i].item())
                     cls  = int(last_labels[i].item())
 
-                    cv2.rectangle(annotated, (x1, y1), (x2, y2), (0,255,0), 2)
-                    txt = f"{names[cls]} {conf:.2f}"
-                    cv2.putText(annotated, txt, (x1, y1-8),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,255,0), 2)
+                    class_name = names[cls]
+                    color = get_detection_color(class_name)
+                    cv2.rectangle(annotated, (x1, y1), (x2, y2), color, 2)
+                    txt = f"{class_name} {conf:.2f}"
+                    cv2.putText(annotated, txt, (x1, y1-12),
+                                cv2.FONT_HERSHEY_SIMPLEX, 1.0, color, 2)
 
         # — afficher le FPS et la source
         cv2.putText(annotated, f"FPS: {fps_avg:.1f}", (20,40),
@@ -361,6 +365,16 @@ MODE TEMPS RÉEL (WEBCAM):
         video_writer.release()
     cv2.destroyAllWindows()
     print("✅ Session terminée!")
+
+def get_detection_color(class_name):
+    """Retourne la couleur appropriée selon le nom de la classe"""
+    class_name_lower = class_name.lower()
+    if "green light" in class_name_lower:
+        return (0, 255, 0)  # Vert
+    elif "red light" in class_name_lower:
+        return (0, 0, 255)  # Rouge
+    else:
+        return (0, 255, 0)  # Vert par défaut
 
 def save_screenshot(frame):
     """Sauvegarde un screenshot avec horodatage"""
